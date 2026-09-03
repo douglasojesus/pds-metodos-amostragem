@@ -1,4 +1,4 @@
-function xs_f = amostragem_flattop(tau, Ts, fs, f, xf_f)
+function xs_f = amostragem_flattop(tau, Ts, fs, f, xf_f, H0_f)
 
     X_ideal_sum = zeros(size(f));
 
@@ -23,8 +23,6 @@ function xs_f = amostragem_flattop(tau, Ts, fs, f, xf_f)
             end
         end
     end
-
-    H0_f = tau * sinc(f * tau) .* exp(-1i * pi * f * tau);
 
     xs_f = fs * X_ideal_sum .* H0_f;
 

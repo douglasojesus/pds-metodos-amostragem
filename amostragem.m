@@ -65,6 +65,7 @@ xs_f_natural = amostragem_natural(tau, Ts, fs, f, xf_f);
 % amostragem flat-top
 
 h0_t = pulso_retangular(t, 0, tau, 1);
+H0_f = tau * sinc(f * tau) .* exp(-1i * pi * f * tau);
 
 dt = t(2) - t(1);
 conv_full = conv(xs_t_ideal, h0_t) * dt;
@@ -72,7 +73,7 @@ xs_t_flattop = conv_full(1:length(t));
 
 %exibe_sinal_tempo('Xs_ideal(t) convoluído com h0_t', t, xs_t_flattop);
 
-xs_f_flattop = amostragem_flattop(tau, Ts, fs, f, xf_f);
+xs_f_flattop = amostragem_flattop(tau, Ts, fs, f, xf_f, H0_f);
 
 %exibe_sinal_frequencia('Amostragem Flat-top', f, xs_f_flattop);
 
@@ -119,7 +120,15 @@ xr_t_flattop_reconstruido = real(espectro_para_tempo(f, xr_f_flattop, t));
 
 exibe_sinal_tempo('Sinal recontruido flattop no tempo', t, xr_t_flattop_reconstruido);
 
+heq_f_flattop = 1./H0_f;
 
+xeq_f_flattop = xr_f_flattop .* heq_f_flattop;
+
+exibe_sinal_frequencia('Sinal reconstruido flattop na frequencia com Heq', f, xeq_f_flattop);
+
+xeq_t_flattop_reconstruido = real(espectro_para_tempo(f, xeq_f_flattop, t));
+
+exibe_sinal_tempo('Sinal recontruido flattop no tempo com Heq', t, xeq_t_flattop_reconstruido);
 
 
 
