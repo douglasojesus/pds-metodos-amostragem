@@ -1,5 +1,3 @@
-function h0 = pulso_retangular(t, tau)
-    h0 = (t >= 0) & (t <= tau);
-
-    h0 = double(h0);
+function h = pulso_retangular(eixo, inicio, fim, amplitude)
+    h = amplitude * double((eixo >= inicio) & (eixo <= fim));
 end
