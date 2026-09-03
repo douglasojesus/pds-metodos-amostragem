@@ -81,19 +81,33 @@ xs_t_reconstruido = real(espectro_para_tempo(f, xs_f_ideal, t));
 
 %exibe_sinal_tempo('', t, xs_t_reconstruido);
 
-% reconstrucao
+% reconstrucao ideal
 
 fc = 2.5;
 
-hr_f = pulso_retangular(f, -fc, fc, Ts);
+hr_f_ideal = pulso_retangular(f, -fc, fc, Ts);
 
-xr_f_ideal = xs_f_ideal .* hr_f;
+xr_f_ideal = xs_f_ideal .* hr_f_ideal;
 
 exibe_sinal_frequencia('Sinal reconstruido ideal na frequencia', f, xr_f_ideal);
 
 xr_t_ideal_reconstruido = real(espectro_para_tempo(f, xr_f_ideal, t));
 
 exibe_sinal_tempo('Sinal recontruido ideal no tempo', t, xr_t_ideal_reconstruido);
+
+% reconstrucao natural
+
+hr_f_natural = pulso_retangular(f, -fc, fc, Ts/tau);
+
+xr_f_natural = xs_f_natural .* hr_f_natural;
+
+exibe_sinal_frequencia('Sinal reconstruido natural na frequencia', f, xr_f_natural);
+
+xr_t_natural_reconstruido = real(espectro_para_tempo(f, xr_f_natural, t));
+
+exibe_sinal_tempo('Sinal recontruido natural no tempo', t, xr_t_natural_reconstruido);
+
+
 
 
 
