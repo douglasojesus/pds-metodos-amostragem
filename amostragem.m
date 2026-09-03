@@ -27,5 +27,23 @@ xf_t = espectro_para_tempo(f, xf_f, t);
 
 exibe_sinal_tempo('Sinal x(t) após filtro AA', t, xf_t);
 
+fs = 5;
+Ts = 1 / fs;
+
+p_t = trem_pulsos(t, Ts);
+
+% amostragem ideal
+
+xs_t = xf_t .* p_t;
+
+exibe_sinal_tempo('Impulsos * x(t)', t, xs_t);
+
+xs_f_ideal = amostragem_ideal(f, fs, xf_f);
+
+exibe_sinal_frequencia('Amostragem ideal', f, xs_f_ideal);
+
+
+
+
 
 
