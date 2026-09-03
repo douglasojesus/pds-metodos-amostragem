@@ -60,6 +60,22 @@ xs_f_natural = amostragem_natural(tau, Ts, fs, f, xf_f);
 
 exibe_sinal_frequencia('Amostragem natural', f, xs_f_natural);
 
+% amostragem flat-top
+
+h0_t = pulso_retangular(t, tau);
+
+dt = t(2) - t(1);
+conv_full = conv(xs_t_ideal, h0_t) * dt;
+xs_t_flattop = conv_full(1:length(t));
+
+exibe_sinal_tempo('Xs_ideal(t) convoluído com h0_t', t, xs_t_flattop);
+
+xs_f_flattop = amostragem_flattop(tau, Ts, fs, f, xf_f);
+
+exibe_sinal_frequencia('Amostragem Flat-top', f, xs_f_flattop);
+
+
+
 
 
 
