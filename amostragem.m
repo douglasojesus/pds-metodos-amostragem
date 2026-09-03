@@ -107,7 +107,17 @@ xr_t_natural_reconstruido = real(espectro_para_tempo(f, xr_f_natural, t));
 
 exibe_sinal_tempo('Sinal recontruido natural no tempo', t, xr_t_natural_reconstruido);
 
+% reconstrucao flattop
 
+hr_f_flattop = pulso_retangular(f, -fc, fc, Ts);
+
+xr_f_flattop = xs_f_flattop .* hr_f_flattop;
+
+exibe_sinal_frequencia('Sinal reconstruido flattop na frequencia', f, xr_f_flattop);
+
+xr_t_flattop_reconstruido = real(espectro_para_tempo(f, xr_f_flattop, t));
+
+exibe_sinal_tempo('Sinal recontruido flattop no tempo', t, xr_t_flattop_reconstruido);
 
 
 
