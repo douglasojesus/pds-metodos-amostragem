@@ -42,7 +42,9 @@ xs_t_ideal = xf_t .* p_t_ideal;
 
 xs_f_ideal = amostragem_ideal(f, fs, xf_f);
 
-exibe_sinal_frequencia('Amostragem ideal', f, xs_f_ideal);
+%exibe_sinal_frequencia('Amostragem ideal', f, xs_f_ideal);
+
+%exibe_sinal_tempo('', t, espectro_para_tempo(f, xs_f_ideal, t));
 
 % amostragem natural
 
@@ -58,7 +60,7 @@ xs_t_natural = xf_t .* p_t_natural;
 
 xs_f_natural = amostragem_natural(tau, Ts, fs, f, xf_f);
 
-exibe_sinal_frequencia('Amostragem natural', f, xs_f_natural);
+%exibe_sinal_frequencia('Amostragem natural', f, xs_f_natural);
 
 % amostragem flat-top
 
@@ -68,13 +70,18 @@ dt = t(2) - t(1);
 conv_full = conv(xs_t_ideal, h0_t) * dt;
 xs_t_flattop = conv_full(1:length(t));
 
-exibe_sinal_tempo('Xs_ideal(t) convoluído com h0_t', t, xs_t_flattop);
+%exibe_sinal_tempo('Xs_ideal(t) convoluído com h0_t', t, xs_t_flattop);
 
 xs_f_flattop = amostragem_flattop(tau, Ts, fs, f, xf_f);
 
-exibe_sinal_frequencia('Amostragem Flat-top', f, xs_f_flattop);
+%exibe_sinal_frequencia('Amostragem Flat-top', f, xs_f_flattop);
 
+%exibe_sinal_tempo('', t, espectro_para_tempo(f, xs_f_flattop, t));
 
+% Reconstrução do tempo a partir da frequência (limitada)
+xs_t_reconstruido = real(espectro_para_tempo(f, xs_f_ideal, t));
+
+% reconstrucao
 
 
 
