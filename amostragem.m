@@ -64,7 +64,7 @@ xs_f_natural = amostragem_natural(tau, Ts, fs, f, xf_f);
 
 % amostragem flat-top
 
-h0_t = pulso_retangular(t, tau);
+h0_t = pulso_retangular(t, 0, tau, 1);
 
 dt = t(2) - t(1);
 conv_full = conv(xs_t_ideal, h0_t) * dt;
@@ -76,12 +76,24 @@ xs_f_flattop = amostragem_flattop(tau, Ts, fs, f, xf_f);
 
 %exibe_sinal_frequencia('Amostragem Flat-top', f, xs_f_flattop);
 
-%exibe_sinal_tempo('', t, espectro_para_tempo(f, xs_f_flattop, t));
-
-% Reconstrução do tempo a partir da frequência (limitada)
+% reconstrução do tempo a partir da frequência (limitada)
 xs_t_reconstruido = real(espectro_para_tempo(f, xs_f_ideal, t));
 
+%exibe_sinal_tempo('', t, xs_t_reconstruido);
+
 % reconstrucao
+
+fc = 2.5;
+
+hr_f = pulso_retangular(f, -fc, fc, Ts);
+
+xr_f_ideal = xs_f_ideal .* hr_f;
+
+exibe_sinal_frequencia('Sinal reconstruido ideal na frequencia', f, xr_f_ideal);
+
+xr_t_ideal_reconstruido = real(espectro_para_tempo(f, xr_f_ideal, t));
+
+exibe_sinal_tempo('Sinal recontruido ideal no tempo', t, xr_t_ideal_reconstruido);
 
 
 
