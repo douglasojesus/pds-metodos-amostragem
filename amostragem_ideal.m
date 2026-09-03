@@ -7,6 +7,8 @@ function xs_f = amostragem_ideal(f, fs, xf_f)
 
         deslocamento = k * fs;
 
+        fprintf('k = %d, deslocamento = %.1f Hz\n', k, deslocamento);
+
         % Xf(f-kfs)
         for i = 1:length(f)
 

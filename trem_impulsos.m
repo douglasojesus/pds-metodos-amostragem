@@ -1,7 +1,7 @@
 % p(t) = somatorio (  delta(t-nTs)  ) = ... + delta(t+Ts) + delta(t) + delta(t-Ts) + delta(t-2Ts) + ...
 % vamos ter um pulso (amplitude=1) em cada múltiplo de Ts: ..., t=-Ts, t=0, t=Ts, t=2Ts, ...
 
-function p_t = trem_pulsos(t, Ts)
+function p_t = trem_impulsos(t, Ts)
     p_t = zeros(size(t));
 
     % para cada múltiplo de Ts dentro de t
