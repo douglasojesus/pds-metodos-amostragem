@@ -14,6 +14,12 @@ function exibe_sinal_tempo(nome_figura, t, varargin)
 
         plot(t, varargin{i});
 
+        %ymax = max(varargin{i});
+        %ymin = min(varargin{i});
+        %amplitude = ymax - ymin;
+        %folga = 0.05 * amplitude;
+        %ylim([ymin-folga, ymax+folga]);
+
         ylabel('Amplitude');
         grid on;
         xlim([-0.5 0.5]);
@@ -21,4 +27,5 @@ function exibe_sinal_tempo(nome_figura, t, varargin)
     end
 
 end
+
 

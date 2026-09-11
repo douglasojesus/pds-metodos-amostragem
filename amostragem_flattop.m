@@ -27,3 +27,5 @@ function xs_f = amostragem_flattop(tau, Ts, fs, f, xf_f, H0_f)
     xs_f = fs * X_ideal_sum .* H0_f;
 
 end
+
+
