@@ -1,0 +1,77 @@
+Sinal de entrada padrão para todos os testes:
+
+A_1 = 1, f_1 = 2
+A_2 = 0.5, f_2 = 18
+
+================================================
+Caso 1: O Cenário Ideal (Funcionamento Perfeito)
+================================================
+
+Variáveis:
+fc_aa = 10
+fs = 5
+tau = 0.05
+fc_rec = 2.5
+
+Comportamento Esperado:
+Filtro AA: Elimina perfeitamente a componente de 18 Hz, sobrando apenas a senoide pura de 2 Hz.
+Amostragem: f_s = 5 respeita Nyquist para f_max = 2 (5 > 4).
+Reconstrução: O filtro com corte em 2.5 Hz isola apenas a banda base original. O sinal final de saída será uma senoide idêntica a x_1(t).
+
+==================================================================
+Caso 2: Aliasing Clássico (Ausência/Falha do Filtro Anti-Aliasing)
+==================================================================
+
+Variáveis:
+fc_aa = 20
+fs = 5
+tau = 0.05
+fc_rec = 2.5
+
+Comportamento Esperado:
+Filtro AA: Deixa passar a componente de 18 Hz.
+Amostragem: A frequência de 18 Hz será subamostrada (f_s = 5). As réplicas dessa alta frequência irão se espelhar para dentro da banda base (especificamente, 18 - 3 * 5 = 3 Hz, e 18 - 4 * 5 = -2 Hz). -> f_replica = f_original - k * f_s.
+Reconstrução: O sinal no tempo não será nem a mistura original, nem a senoide de 2 Hz pura. Estará severamente distorcido e com uma modulação estranha, provando que ruídos de alta frequência "invadem" sinais de baixa frequência se não forem filtrados antes de amostrar.
+
+================================================================
+Caso 3: Aliasing da Frequência Fundamental (Violação de Nyquist)
+================================================================
+
+Variáveis:
+fc_aa = 10
+fs = 3
+tau = 0.1
+fc_rec = 1.5
+
+Comportamento Esperado:
+Filtro AA: Corta os 18 Hz (sucesso).
+Amostragem: Falha. Para uma frequência de 2 Hz, Nyquist exige no mínimo 5 Hz. Ao amostrar com 3 Hz, a componente de 2 Hz sofre aliasing, rebatendo para |2 - 3| = 1 Hz.
+Reconstrução: O sinal reconstruído aparecerá visualmente perfeito e limpo, porém será uma senoide de 1 Hz, não de 2 Hz. Ocorre a ilusão de um sinal falso (alias).
+
+=========================================================
+Caso 4: Má Reconstrução (Filtro Reconstrutor muito largo)
+=========================================================
+
+Variáveis:
+fc_aa = 4
+fs = 5
+tau = 0.05
+fc_rec = 20
+
+Comportamento Esperado:
+Filtro AA & Amostragem: Funcionam corretamente, preservando apenas os 2 Hz sem causar aliasing na banda base.
+Reconstrução: Ao colocar um filtro de reconstrução com f_c = 20, você não está limpando as réplicas espectrais de alta frequência criadas naturalmente pela amostragem (que estarão centradas em 5, 10, 15 Hz...). No gráfico temporal, o sinal reconstruído ficará visivelmente serrilhado ou em degraus, falhando em recuperar a suavidade analógica.
+
+====================================================
+Caso 5: O Efeito de Abertura (Distorção no Flat-Top)
+====================================================
+
+Variáveis:
+fc_aa = 4
+fs = 10
+tau = 0.09 (quase igual a T_s = 0.1)
+fc_rec = 4
+
+Comportamento Esperado:
+Amostragem: Por usar um pulso excessivamente largo (tau muito próximo ao período de amostragem T_s), ocorre o que chamamos de Efeito de Abertura.
+Reconstrução: Observe o espectro e o tempo da reconstrução do tipo Flat-Top sem equalização. A amplitude da senoide ficará "esmagada" (menor que 1) porque a envoltória Sinc atenuou a banda base. Ao olhar o gráfico do Flat-Top com equalização (H_eq), a amplitude voltará ao tamanho correto, provando a necessidade do filtro equalizador inverso na reconstrução Sample and Hold.
