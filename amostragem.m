@@ -2,7 +2,7 @@ clear; clc; close all;
 
 % parâmetros para visualização "contínua"
 dt = 0.0005;
-t  = -1.0:dt:1.0;
+t  = -1:dt:1;
 
 % sinal
 
@@ -13,7 +13,33 @@ x1_t = senoide(A1, f1, t, 'cos');
 x2_t = senoide(A2, f2, t, 'cos');
 x_t = x1_t + x2_t;
 
-exibe_sinal_tempo('Sinais no tempo x(t)', t, x1_t, x2_t, x_t);
+%exibe_sinal_tempo('Sinais no tempo x(t)', t, x1_t, x2_t, x_t);
+
+figure('Name', 'Sinais no tempo x(t)', 'Position', [100 100 600 400]);
+
+subplot(3, 1, 1);
+plot(t, x1_t);
+title('Sinal x_1(t)');
+ylabel('Amplitude');
+xlabel('t');
+grid on;
+xlim([-0.5 0.5]);
+
+subplot(3, 1, 2);
+plot(t, x2_t);
+title('Sinal x_2(t)');
+ylabel('Amplitude');
+xlabel('t');
+grid on;
+xlim([-0.5 0.5]);
+
+subplot(3, 1, 3);
+plot(t, x_t);
+title('Sinal x(t) = x_1(t) + x_2(t)');
+ylabel('Amplitude');
+xlabel('t');
+grid on;
+xlim([-0.5 0.5]);
 
 % qntd de amostras na frequencia
 
@@ -21,44 +47,86 @@ f = -20:1:20;
 
 x_f = espectro_senoides(f, [A1, A2], [f1, f2]);
 
-exibe_sinal_frequencia('', f, x_f);
+% exibe_sinal_frequencia('', f, x_f);
 
 % limitação em banda
 
-fc = 20;
+fc = 4;
 
 h = pulso_retangular(f, -fc, fc, 1);
 
-exibe_sinal_frequencia('', f, h);
+%exibe_sinal_frequencia('', f, h);
 
 xf_f = x_f .* h;
 
-exibe_sinal_frequencia('Espectro do sinal Xf(f)', f, xf_f);
+%exibe_sinal_frequencia('Espectro do sinal Xf(f)', f, xf_f);
 
 xf_t = espectro_para_tempo(f, xf_f, t); % explicar porque na cossenoide funcionou sem importar o tamanho de amostras da freq. e no outro exemplo não)
 
-exibe_sinal_tempo('Sinal xf(t) (x(t) após filtro AA)', t, xf_t);
+% exibe_sinal_tempo('Sinal xf(t) (x(t) após filtro AA)', t, xf_t);
+
+figure('Name', 'Aplicação do filtro anti-aliasing (Haa)', 'Position', [100 100 600 400]);
+
+subplot(5, 1, 1);
+plot(t, x_t);
+title('Sinal x(t)');
+ylabel('Amplitude');
+xlabel('t');
+grid on;
+xlim([-0.5 0.5]);
+
+subplot(5, 1, 2);
+stem(f, abs(x_f), 'filled');
+title('Sinal X(f)');
+ylabel('Amplitude');
+xlabel('f');
+grid on;
+xlim([-20 20]);
+
+subplot(5, 1, 3);
+stem(f, abs(h), 'filled');
+title('Filtro Haa');
+ylabel('Amplitude');
+xlabel('f');
+grid on;
+xlim([-20 20]);
+
+subplot(5, 1, 4);
+stem(f, abs(xf_f), 'filled');
+title('Sinal filtrado Xf(f)');
+ylabel('Amplitude');
+xlabel('f');
+grid on;
+xlim([-20 20]);
+
+subplot(5, 1, 5);
+plot(t, xf_t);
+title('Transformação do espectro Xf(f) para tempo xf(t)');
+ylabel('Amplitude');
+xlabel('t');
+grid on;
+xlim([-0.5 0.5]);
 
 % amostragem
 
-fs = 5;
+fs = 6;
 Ts = 1 / fs;
 
 % amostragem ideal
 
 p_t_ideal = trem_impulsos(t, Ts);
 
-exibe_sinal_tempo('Trem de impulsos no tempo', t, p_t_ideal);
+%exibe_sinal_tempo('Trem de impulsos no tempo', t, p_t_ideal);
 
 xs_t_ideal = xf_t .* p_t_ideal;
 
-exibe_sinal_tempo('[IDEAL SAMPLE] xs_ideal(t) = trem de impulsos * xf(t)', t, xs_t_ideal);
+%exibe_sinal_tempo('[IDEAL SAMPLE] xs_ideal(t) = trem de impulsos * xf(t)', t, xs_t_ideal);
 
 xs_f_ideal = amostragem_ideal(f, fs, xf_f);
 
-exibe_sinal_frequencia('[IDEAL SAMPLE] Xs_ideal(f) = fs * somatorio ( xf(f-kfs) )', f, xs_f_ideal);
+%exibe_sinal_frequencia('[IDEAL SAMPLE] Xs_ideal(f) = fs * somatorio ( xf(f-kfs) )', f, xs_f_ideal);
 
-exibe_sinal_tempo('Xs_ideal(f) transformada em xs_ideal(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xs_f_ideal, t));
+%exibe_sinal_tempo('Xs_ideal(f) transformada em xs_ideal(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xs_f_ideal, t));
 
 % amostragem natural
 
@@ -66,11 +134,10 @@ tau = 0.1; % 0 < tau < Ts
 
 p_t_natural = trem_pulsos_retangulares(f, t, tau, Ts);
 
-exibe_sinal_tempo('Trem de pulsos retangulares espaçados por tau', t, p_t_natural);
-
 xs_t_natural = xf_t .* p_t_natural;
 
-exibe_sinal_tempo('[NATURAL SAMPLE] xs_natural(t) = trem de pulsos * xf(t)', t, xs_t_natural);
+exibe_sinal_tempo('xf(t) após filtro AA, Trem de pulsos retangulares espaçados por tau (p(t)), xs_natural(t) = xf(t) * p(t)', ...
+                  t, xf_t, p_t_natural, xs_t_natural);
 
 xs_f_natural = amostragem_natural(tau, Ts, fs, f, xf_f);
 
@@ -87,17 +154,17 @@ dt = t(2) - t(1);
 conv_full = conv(xs_t_ideal, h0_t) * dt;
 xs_t_flattop = conv_full(1:length(t));
 
-exibe_sinal_tempo('[FLAT-TOP SAMPLE] xs_flattop(t) = xs_ideal(t) convoluído com h0(t)', t, xs_t_ideal, h0_t, xs_t_flattop);
+%exibe_sinal_tempo('[FLAT-TOP SAMPLE] xs_flattop(t) = xs_ideal(t) convoluído com h0(t)', t, xs_t_ideal, h0_t, xs_t_flattop);
 
 xs_f_flattop = amostragem_flattop(tau, Ts, fs, f, xf_f, H0_f);
 
-exibe_sinal_frequencia('[FLAT-TOP SAMPLE] Xs_flattop(f) = ?', f, xs_f_flattop);
+%exibe_sinal_frequencia('[FLAT-TOP SAMPLE] Xs_flattop(f) = ?', f, xs_f_flattop);
 
-exibe_sinal_tempo('Xs_flattop(f) transformada em xs_flattop(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xs_f_ideal, t));
+%exibe_sinal_tempo('Xs_flattop(f) transformada em xs_flattop(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xs_f_ideal, t));
 
 % reconstrucao
 
-fc = 20;
+fc = 3;
 
 % reconstrucao ideal
 
@@ -105,9 +172,9 @@ hr_f_ideal = pulso_retangular(f, -fc, fc, Ts);
 
 xr_f_ideal = xs_f_ideal .* hr_f_ideal;
 
-exibe_sinal_frequencia('[RECONS. IDEAL] Xr_ideal(f) = Xs_ideal(f) * Hr_ideal(f)', f, xs_f_ideal, hr_f_ideal, xr_f_ideal);
+%exibe_sinal_frequencia('[RECONS. IDEAL] Xr_ideal(f) = Xs_ideal(f) * Hr_ideal(f)', f, xs_f_ideal, hr_f_ideal, xr_f_ideal);
 
-exibe_sinal_tempo('Xr_ideal(f) transformada em xr_ideal(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xr_f_ideal, t));
+%exibe_sinal_tempo('Xr_ideal(f) transformada em xr_ideal(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xr_f_ideal, t));
 
 % reconstrucao natural
 
@@ -125,15 +192,15 @@ hr_f_flattop = pulso_retangular(f, -fc, fc, Ts);
 
 xr_f_flattop = xs_f_flattop .* hr_f_flattop;
 
-exibe_sinal_frequencia('[RECONS. FLAT-TOP] Xr_flattop(f) = Xs_flattop(f) * Hr_flattop(f)', f, xs_f_flattop, hr_f_flattop, xr_f_flattop);
+%exibe_sinal_frequencia('[RECONS. FLAT-TOP] Xr_flattop(f) = Xs_flattop(f) * Hr_flattop(f)', f, xs_f_flattop, hr_f_flattop, xr_f_flattop);
 
-exibe_sinal_tempo('Xr_flattop(f) transformada em xr_flattop(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xr_f_flattop, t));
+%exibe_sinal_tempo('Xr_flattop(f) transformada em xr_flattop(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xr_f_flattop, t));
 
 heq_f_flattop = 1./H0_f;
 
 xeq_f_flattop = xr_f_flattop .* heq_f_flattop;
 
-exibe_sinal_frequencia('[RECONS. FLAT-TOP] Xeq_flattop(f) = Xr_flattop(f) * Heq(f)', f, xr_f_flattop, heq_f_flattop, xeq_f_flattop);
+%exibe_sinal_frequencia('[RECONS. FLAT-TOP] Xeq_flattop(f) = Xr_flattop(f) * Heq(f)', f, xr_f_flattop, heq_f_flattop, xeq_f_flattop);
 
-exibe_sinal_tempo('Xeq_flattop(f) transformada em xeq_flattop(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xeq_f_flattop, t));
+%exibe_sinal_tempo('Xeq_flattop(f) transformada em xeq_flattop(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xeq_f_flattop, t));
 
