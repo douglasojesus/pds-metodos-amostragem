@@ -67,9 +67,6 @@ xf_t = espectro_para_tempo(f, xf_f, t); % explicar porque na cossenoide funciono
 
 figure('Name', 'Aplicação do filtro anti-aliasing (Haa)', 'Position', [100 100 1000 700]);
 
-% --- COLUNA 1 (Sinais de Entrada e Filtro) ---
-
-% Linha 1, Coluna 1 (Posição 1)
 subplot(3, 2, 1);
 plot(t, x_t);
 title('Sinal x(t)');
@@ -78,7 +75,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% Linha 2, Coluna 1 (Posição 3)
 subplot(3, 2, 3);
 stem(f, abs(x_f), 'filled');
 title('Sinal X(f)');
@@ -87,7 +83,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 3, Coluna 1 (Posição 5)
 subplot(3, 2, 5);
 stem(f, abs(h), 'filled');
 title('Filtro Haa');
@@ -96,7 +91,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 1, Coluna 2 (Posição 2)
 subplot(3, 2, 2);
 stem(f, abs(xf_f), 'filled');
 title('Sinal filtrado Xf(f)');
@@ -105,7 +99,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 2, Coluna 2 (Posição 4)
 subplot(3, 2, 4);
 plot(t, xf_t);
 title('Transformação do espectro Xf(f) para tempo xf(t)');
@@ -137,9 +130,6 @@ xs_f_ideal = amostragem_ideal(f, fs, xf_f);
 
 figure('Name', 'Amostragem ideal', 'Position', [100 100 1000 700]);
 
-% --- COLUNA 1 (Sinais no Tempo) ---
-
-% Linha 1, Coluna 1 (Posição 1)
 subplot(3, 2, 1);
 plot(t, xf_t);
 title('xf(t)');
@@ -148,7 +138,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% Linha 2, Coluna 1 (Posição 3)
 subplot(3, 2, 3);
 plot(t, p_t_ideal);
 title('Trem de impulsos no tempo p(t)');
@@ -157,7 +146,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% Linha 3, Coluna 1 (Posição 5)
 subplot(3, 2, 5);
 plot(t, xs_t_ideal);
 title('Amostragem ideal xs(t) = xf(t) * p(t)');
@@ -166,9 +154,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% --- COLUNA 2 (Domínio da Frequência e Reconstrução) ---
-
-% Linha 1, Coluna 2 (Posição 2)
 subplot(3, 2, 2);
 stem(f, abs(xs_f_ideal), 'filled');
 title('Amostragem ideal Xs(f)');
@@ -177,7 +162,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 2, Coluna 2 (Posição 4)
 subplot(3, 2, 4);
 plot(t, espectro_para_tempo(f, xs_f_ideal, t));
 title('Xs(f) transformada em xs(t). Aproximação da integral.');
@@ -205,9 +189,6 @@ xs_f_natural = amostragem_natural(tau, Ts, fs, f, xf_f);
 
 figure('Name', 'Amostragem natural', 'Position', [100 100 1000 700]);
 
-% --- COLUNA 1 (Sinais no Tempo) ---
-
-% Linha 1, Coluna 1 (Posição 1)
 subplot(3, 2, 1);
 plot(t, xf_t);
 title('xf(t)');
@@ -216,7 +197,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% Linha 2, Coluna 1 (Posição 3)
 subplot(3, 2, 3);
 plot(t, p_t_natural);
 title('Trem de pulsos no tempo p(t)');
@@ -225,7 +205,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% Linha 3, Coluna 1 (Posição 5)
 subplot(3, 2, 5);
 plot(t, xs_t_natural);
 title('Amostragem natural xs(t) = xf(t) * p(t)');
@@ -234,9 +213,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% --- COLUNA 2 (Domínio da Frequência e Reconstrução) ---
-
-% Linha 1, Coluna 2 (Posição 2)
 subplot(3, 2, 2);
 stem(f, abs(xs_f_natural), 'filled');
 title('Amostragem natural Xs(f)');
@@ -245,7 +221,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 2, Coluna 2 (Posição 4)
 subplot(3, 2, 4);
 plot(t, espectro_para_tempo(f, xs_f_natural, t));
 title('Xs(f) transformada em xs(t). Aproximação da integral.');
@@ -273,9 +248,6 @@ xs_f_flattop = amostragem_flattop(tau, Ts, fs, f, xf_f, H0_f);
 
 figure('Name', 'Amostragem flat-top', 'Position', [100 100 1000 700]);
 
-% --- COLUNA 1 (Sinais no Tempo) ---
-
-% Linha 1, Coluna 1 (Posição 1)
 subplot(3, 2, 1);
 plot(t, xf_t);
 title('xf(t)');
@@ -284,7 +256,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% Linha 2, Coluna 1 (Posição 3)
 subplot(3, 2, 3);
 plot(t, h0_t);
 title('Pulso retangular no tempo h0(t)');
@@ -293,7 +264,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% Linha 3, Coluna 1 (Posição 5)
 subplot(3, 2, 5);
 plot(t, xs_t_flattop);
 title('Amostragem flat-top xs(t) = xf(t) convoluido com h0(t)');
@@ -302,9 +272,6 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% --- COLUNA 2 (Domínio da Frequência e Reconstrução) ---
-
-% Linha 1, Coluna 2 (Posição 2)
 subplot(3, 2, 2);
 stem(f, abs(H0_f), 'filled');
 title('Pulso retangular na frequência H0(f)');
@@ -313,7 +280,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 2, Coluna 2 (Posição 4)
 subplot(3, 2, 4);
 stem(f, abs(xs_f_flattop), 'filled');
 title('Amostragem flat-top Xs(f)');
@@ -322,7 +288,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 3, Coluna 2 (Posição 6)
 subplot(3, 2, 6);
 plot(t, espectro_para_tempo(f, xs_f_flattop, t));
 title('Xs(f) transformada em xs(t). Aproximação da integral.');
@@ -347,9 +312,6 @@ xr_f_ideal = xs_f_ideal .* hr_f_ideal;
 
 figure('Name', 'Reconstrução ideal', 'Position', [100 100 1000 600]);
 
-% --- COLUNA 1 (Espectros de Entrada) ---
-
-% Linha 1, Coluna 1 (Posição 1)
 subplot(2, 2, 1);
 stem(f, abs(xs_f_ideal), 'filled');
 title('Xs_ideal(f)');
@@ -358,7 +320,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 2, Coluna 1 (Posição 3)
 subplot(2, 2, 3);
 stem(f, abs(hr_f_ideal), 'filled');
 title('Hr_ideal(f)');
@@ -367,9 +328,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% --- COLUNA 2 (Filtração e Reconstrução no Tempo) ---
-
-% Linha 1, Coluna 2 (Posição 2)
 subplot(2, 2, 2);
 stem(f, abs(xr_f_ideal), 'filled');
 title('Xr_ideal(f) = Xs_ideal(f) * Hr_ideal(f)');
@@ -378,7 +336,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 2, Coluna 2 (Posição 4)
 subplot(2, 2, 4);
 plot(t, espectro_para_tempo(f, xr_f_ideal, t));
 title('Xr(f) transformada em xr(t). Aproximação da integral.');
@@ -399,9 +356,6 @@ xr_f_natural = xs_f_natural .* hr_f_natural;
 
 figure('Name', 'Reconstrução natural', 'Position', [100 100 1000 600]);
 
-% --- COLUNA 1 (Espectros de Entrada) ---
-
-% Linha 1, Coluna 1 (Posição 1)
 subplot(2, 2, 1);
 stem(f, abs(xs_f_natural), 'filled');
 title('Xs_natural(f)');
@@ -410,7 +364,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 2, Coluna 1 (Posição 3)
 subplot(2, 2, 3);
 stem(f, abs(hr_f_natural), 'filled');
 title('Hr_natural(f)');
@@ -419,9 +372,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% --- COLUNA 2 (Filtragem e Reconstrução no Tempo) ---
-
-% Linha 1, Coluna 2 (Posição 2)
 subplot(2, 2, 2);
 stem(f, abs(xr_f_natural), 'filled');
 title('Xr_natural(f) = Xs_natural(f) * Hr_natural(f)');
@@ -430,7 +380,6 @@ xlabel('f');
 grid on;
 xlim([-20 20]);
 
-% Linha 2, Coluna 2 (Posição 4)
 subplot(2, 2, 4);
 plot(t, espectro_para_tempo(f, xr_f_natural, t));
 title('Xr(f) transformada em xr(t). Aproximação da integral.');
@@ -449,76 +398,52 @@ xr_f_flattop = xs_f_flattop .* hr_f_flattop;
 
 %exibe_sinal_tempo('Xr_flattop(f) transformada em xr_flattop(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xr_f_flattop, t));
 
-heq_f_flattop = 1./H0_f;
+% Equalizador calculado apenas na banda do filtro (evita 1/0 e corrige a escala)
+heq_f_flattop = zeros(size(f));
+idx_banda = (abs(f) <= fc);
+heq_f_flattop(idx_banda) = 1 ./ H0_f(idx_banda);
 
+xr_f_flattop = xs_f_flattop .* hr_f_flattop;
 xeq_f_flattop = xr_f_flattop .* heq_f_flattop;
 
-%exibe_sinal_frequencia('[RECONS. FLAT-TOP] Xeq_flattop(f) = Xr_flattop(f) * Heq(f)', f, xr_f_flattop, heq_f_flattop, xeq_f_flattop);
+figure('Name', 'Reconstrução Flat-Top: Sem Equalizador vs Com Equalizador', 'Position', [100 100 1100 850]);
 
-%exibe_sinal_tempo('Xeq_flattop(f) transformada em xeq_flattop(t). Aproximação da integral para soma de len(f) itens.', t, espectro_para_tempo(f, xeq_f_flattop, t));
-
-figure('Name', 'Reconstrução flat-top', 'Position', [100 100 1000 800]);
-
-% Gráfico 1 (Linha 1, Coluna 1) -> Posição 1
+% Espectro Amostrado Xs(f)
 subplot(4, 2, 1);
 stem(f, abs(xs_f_flattop), 'filled');
-title('Xs_flattop(f)');
-ylabel('Amplitude');
-xlabel('f');
-grid on;
-xlim([-20 20]);
+title('Xs_flattop(f)'); ylabel('Amplitude'); xlabel('f'); grid on; xlim([-20 20]);
 
-% Gráfico 2 (Linha 2, Coluna 1) -> Posição 3
+% Filtro Passa-Baixas Hr(f)
 subplot(4, 2, 3);
 stem(f, abs(hr_f_flattop), 'filled');
-title('Hr_flattop(f)');
-ylabel('Amplitude');
-xlabel('f');
-grid on;
-xlim([-20 20]);
+title('Hr_flattop(f) (Filtro Pb)'); ylabel('Amplitude'); xlabel('f'); grid on; xlim([-20 20]);
 
-% Gráfico 3 (Linha 3, Coluna 1) -> Posição 5
+% Espectro Filtrado Xr(f) = Xs(f) * Hr(f)
 subplot(4, 2, 5);
 stem(f, abs(xr_f_flattop), 'filled');
-title('Xr_flattop(f) = Xs_flattop(f) * Hr_flattop(f)');
-ylabel('Amplitude');
-xlabel('f');
-grid on;
-xlim([-20 20]);
+title('Xr(f) = Xs(f) * Hr(f)'); ylabel('Amplitude'); xlabel('f'); grid on; xlim([-20 20]);
 
-% Gráfico 4 (Linha 4, Coluna 1) -> Posição 7
+% Sinal no Tempo xr(t) SEM EQUALIZAÇÃO (Atenuado)
 subplot(4, 2, 7);
 plot(t, espectro_para_tempo(f, xr_f_flattop, t));
-title('Xr(f) transformada em xr(t). Aproximação da integral.');
-ylabel('Amplitude');
-xlabel('t');
-grid on;
-xlim([-0.5 0.5]);
+title('xr(t) SEM Equalizador (Atenuado: Amp ≈ 0.1)'); ylabel('Amplitude'); xlabel('t'); grid on; xlim([-0.5 0.5]);
 
-% Gráfico 5 (Linha 1, Coluna 2) -> Posição 2
-% só altera a fase. verificar grafico correto para isso.
+% Magnitude do Equalizador |Heq(f)| na Banda Passante
 subplot(4, 2, 2);
 stem(f, abs(heq_f_flattop), 'filled');
-title('Heq_flattop(f) = 1/H0(f)');
-ylabel('Amplitude');
-xlabel('f');
-grid on;
-xlim([-20 20]);
+title('|Heq(f)| (Ganho na Banda ≈ 10.6)'); ylabel('Magnitude'); xlabel('f'); grid on; xlim([-20 20]);
 
-% Gráfico 6 (Linha 2, Coluna 2) -> Posição 4
+% Fase do Equalizador /_Heq(f)
 subplot(4, 2, 4);
-stem(f, abs(xeq_f_flattop), 'filled');
-title('Xeq_flattop(f) = Xr_flattop(f) * Heq_flattop(f)');
-ylabel('Amplitude');
-xlabel('f');
-grid on;
-xlim([-20 20]);
+stem(f, angle(heq_f_flattop) * (180/pi), 'filled');
+title('Fase /_Heq(f) (Compensação)'); ylabel('Graus (°)'); xlabel('f'); grid on; xlim([-20 20]);
 
-% Gráfico 7 (Linha 3, Coluna 2) -> Posição 6
+% Espectro Equalizado Xeq(f) = Xr(f) * Heq(f)
 subplot(4, 2, 6);
+stem(f, abs(xeq_f_flattop), 'filled');
+title('Xeq(f) = Xr(f) * Heq(f)'); ylabel('Amplitude'); xlabel('f'); grid on; xlim([-20 20]);
+
+% Sinal no Tempo xeq(t) COM EQUALIZAÇÃO (Totalmente Recuperado)
+subplot(4, 2, 8);
 plot(t, espectro_para_tempo(f, xeq_f_flattop, t));
-title('Xeq(f) transformada em xeq(t). Aproximação da integral.');
-ylabel('Amplitude');
-xlabel('t');
-grid on;
-xlim([-0.5 0.5]);
+title('xeq(t) COM Equalizador (Recuperado: Amp = 1.0)'); ylabel('Amplitude'); xlabel('t'); grid on; xlim([-0.5 0.5]);
