@@ -9,7 +9,7 @@ fig_handles = findobj('Type', 'figure');
 % salvar no PDF na ordem cronológica de criação (Figura 1, 2, 3...)
 fig_handles = flipud(fig_handles);
 
-nome_arquivo = 'Graficos_Processamento_Sinais.pdf';
+nome_arquivo = 'simulacao_caso_1.pdf';
 
 disp('Gerando PDF com todos os gráficos...');
 
@@ -34,6 +34,8 @@ for i = 1:length(fig_handles)
 end
 
 disp(['Sucesso! Todas as figuras foram salvas em: ', nome_arquivo]);
+
+
 
 
 
