@@ -62,16 +62,3 @@ Comportamento Esperado:
 Filtro AA & Amostragem: Funcionam corretamente, preservando apenas os 2 Hz sem causar aliasing na banda base.
 Reconstrução: Ao colocar um filtro de reconstrução com f_c = 20, você não está limpando as réplicas espectrais de alta frequência criadas naturalmente pela amostragem (que estarão centradas em 5, 10, 15 Hz...). No gráfico temporal, o sinal reconstruído ficará visivelmente serrilhado ou em degraus, falhando em recuperar a suavidade analógica.
 
-====================================================
-Caso 5: O Efeito de Abertura (Distorção no Flat-Top)
-====================================================
-
-Variáveis:
-fc_aa = 4
-fs = 10
-tau = 0.09 (quase igual a T_s = 0.1)
-fc_rec = 4
-
-Comportamento Esperado:
-Amostragem: Por usar um pulso excessivamente largo (tau muito próximo ao período de amostragem T_s), ocorre o que chamamos de Efeito de Abertura.
-Reconstrução: Observe o espectro e o tempo da reconstrução do tipo Flat-Top sem equalização. A amplitude da senoide ficará "esmagada" (menor que 1) porque a envoltória Sinc atenuou a banda base. Ao olhar o gráfico do Flat-Top com equalização (H_eq), a amplitude voltará ao tamanho correto, provando a necessidade do filtro equalizador inverso na reconstrução Sample and Hold.

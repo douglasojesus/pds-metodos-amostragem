@@ -1,5 +1,6 @@
 clear; clc; close all;
-graphics_toolkit("gnuplot");
+%graphics_toolkit("gnuplot");
+graphics_toolkit("qt");
 
 % parâmetros para visualização "contínua"
 dt = 0.0005;
@@ -9,16 +10,10 @@ t  = -1:dt:1;
 
 f = -20:1:20; % qntd de amostras na frequencia
 fc = 4; % limitação em banda
-fs = 10; % frequencia de amostragem
-tau = 0.09; % 0 < tau < Ts
-fcrec = 4; % corte de reconstrucao
+fs = 6; % frequencia de amostragem
+tau = 0.1; % 0 < tau < Ts
+fcrec = 3; % corte de reconstrucao
 Ts = 1 / fs;
-
-
-
-
-
-
 
 % sinal
 
