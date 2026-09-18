@@ -7,11 +7,13 @@ t  = -1:dt:1;
 % parametros da simulacao
 
 f = -20:1:20; % qntd de amostras na frequencia
-fc = 20; % limitação em banda
-fs = 5; % frequencia de amostragem
+fc = 4; % limitação em banda
+fs = 6; % frequencia de amostragem
 Ts = 1 / fs;
-tau = 0.05; % 0 < tau < Ts
-fcrec = 2.5; % corte de reconstrucao
+tau = 0.1; % 0 < tau < Ts
+fcrec = 3; % corte de reconstrucao
+
+
 
 % sinal
 
