@@ -4,6 +4,15 @@ clear; clc; close all;
 dt = 0.0005;
 t  = -1:dt:1;
 
+% parametros da simulacao
+
+f = -20:1:20; % qntd de amostras na frequencia
+fc = 20; % limitação em banda
+fs = 5; % frequencia de amostragem
+Ts = 1 / fs;
+tau = 0.05; % 0 < tau < Ts
+fcrec = 2.5; % corte de reconstrucao
+
 % sinal
 
 A1 = 1; f1 = 2;
@@ -41,17 +50,10 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% qntd de amostras na frequencia
-
-f = -20:1:20;
 
 x_f = espectro_senoides(f, [A1, A2], [f1, f2]);
 
 % exibe_sinal_frequencia('', f, x_f);
-
-% limitação em banda
-
-fc = 4;
 
 h = pulso_retangular(f, -fc, fc, 1);
 
@@ -106,11 +108,6 @@ ylabel('Amplitude');
 xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
-
-% amostragem
-
-fs = 6;
-Ts = 1 / fs;
 
 % amostragem ideal
 
@@ -172,7 +169,7 @@ xlim([-0.5 0.5]);
 
 % amostragem natural
 
-tau = 0.1; % 0 < tau < Ts
+
 
 p_t_natural = trem_pulsos_retangulares(f, t, tau, Ts);
 
@@ -296,13 +293,9 @@ xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
 
-% reconstrucao
-
-fc = 3;
-
 % reconstrucao ideal
 
-hr_f_ideal = pulso_retangular(f, -fc, fc, Ts);
+hr_f_ideal = pulso_retangular(f, -fcrec, fcrec, Ts);
 
 xr_f_ideal = xs_f_ideal .* hr_f_ideal;
 
@@ -346,7 +339,7 @@ xlim([-0.5 0.5]);
 
 % reconstrucao natural
 
-hr_f_natural = pulso_retangular(f, -fc, fc, Ts/tau);
+hr_f_natural = pulso_retangular(f, -fcrec, fcrec, Ts/tau);
 
 xr_f_natural = xs_f_natural .* hr_f_natural;
 
@@ -390,7 +383,7 @@ xlim([-0.5 0.5]);
 
 % reconstrucao flattop
 
-hr_f_flattop = pulso_retangular(f, -fc, fc, Ts);
+hr_f_flattop = pulso_retangular(f, -fcrec, fcrec, Ts);
 
 xr_f_flattop = xs_f_flattop .* hr_f_flattop;
 
@@ -400,7 +393,7 @@ xr_f_flattop = xs_f_flattop .* hr_f_flattop;
 
 % Equalizador calculado apenas na banda do filtro (evita 1/0 e corrige a escala)
 heq_f_flattop = zeros(size(f));
-idx_banda = (abs(f) <= fc);
+idx_banda = (abs(f) <= fcrec);
 heq_f_flattop(idx_banda) = 1 ./ H0_f(idx_banda);
 
 xr_f_flattop = xs_f_flattop .* hr_f_flattop;
