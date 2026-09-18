@@ -1,4 +1,5 @@
 clear; clc; close all;
+graphics_toolkit("gnuplot");
 
 % parâmetros para visualização "contínua"
 dt = 0.0005;
@@ -8,10 +9,14 @@ t  = -1:dt:1;
 
 f = -20:1:20; % qntd de amostras na frequencia
 fc = 4; % limitação em banda
-fs = 6; % frequencia de amostragem
+fs = 10; % frequencia de amostragem
+tau = 0.09; % 0 < tau < Ts
+fcrec = 4; % corte de reconstrucao
 Ts = 1 / fs;
-tau = 0.1; % 0 < tau < Ts
-fcrec = 3; % corte de reconstrucao
+
+
+
+
 
 
 
@@ -29,7 +34,7 @@ x_t = x1_t + x2_t;
 figure('Name', 'Sinais no tempo x(t)', 'Position', [100 100 600 400]);
 
 subplot(3, 1, 1);
-plot(t, x1_t);
+plot(t, x1_t, 'LineWidth', 2);
 title('Sinal x_1(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -37,7 +42,7 @@ grid on;
 xlim([-0.5 0.5]);
 
 subplot(3, 1, 2);
-plot(t, x2_t);
+plot(t, x2_t, 'LineWidth', 2);
 title('Sinal x_2(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -45,13 +50,12 @@ grid on;
 xlim([-0.5 0.5]);
 
 subplot(3, 1, 3);
-plot(t, x_t);
+plot(t, x_t, 'LineWidth', 2);
 title('Sinal x(t) = x_1(t) + x_2(t)');
 ylabel('Amplitude');
 xlabel('t');
 grid on;
 xlim([-0.5 0.5]);
-
 
 x_f = espectro_senoides(f, [A1, A2], [f1, f2]);
 
@@ -72,7 +76,7 @@ xf_t = espectro_para_tempo(f, xf_f, t); % explicar porque na cossenoide funciono
 figure('Name', 'Aplicação do filtro anti-aliasing (Haa)', 'Position', [100 100 1000 700]);
 
 subplot(3, 2, 1);
-plot(t, x_t);
+plot(t, x_t, 'LineWidth', 2);
 title('Sinal x(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -104,7 +108,7 @@ grid on;
 xlim([-20 20]);
 
 subplot(3, 2, 4);
-plot(t, xf_t);
+plot(t, xf_t, 'LineWidth', 2);
 title('Transformação do espectro Xf(f) para tempo xf(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -130,7 +134,7 @@ xs_f_ideal = amostragem_ideal(f, fs, xf_f);
 figure('Name', 'Amostragem ideal', 'Position', [100 100 1000 700]);
 
 subplot(3, 2, 1);
-plot(t, xf_t);
+plot(t, xf_t, 'LineWidth', 2);
 title('xf(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -138,7 +142,7 @@ grid on;
 xlim([-0.5 0.5]);
 
 subplot(3, 2, 3);
-plot(t, p_t_ideal);
+plot(t, p_t_ideal, 'LineWidth', 2);
 title('Trem de impulsos no tempo p(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -146,7 +150,7 @@ grid on;
 xlim([-0.5 0.5]);
 
 subplot(3, 2, 5);
-plot(t, xs_t_ideal);
+plot(t, xs_t_ideal, 'LineWidth', 2);
 title('Amostragem ideal xs(t) = xf(t) * p(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -162,7 +166,7 @@ grid on;
 xlim([-20 20]);
 
 subplot(3, 2, 4);
-plot(t, espectro_para_tempo(f, xs_f_ideal, t));
+plot(t, espectro_para_tempo(f, xs_f_ideal, t), 'LineWidth', 2);
 title('Xs(f) transformada em xs(t). Aproximação da integral.');
 ylabel('Amplitude');
 xlabel('t');
@@ -189,7 +193,7 @@ xs_f_natural = amostragem_natural(tau, Ts, fs, f, xf_f);
 figure('Name', 'Amostragem natural', 'Position', [100 100 1000 700]);
 
 subplot(3, 2, 1);
-plot(t, xf_t);
+plot(t, xf_t, 'LineWidth', 2);
 title('xf(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -197,7 +201,7 @@ grid on;
 xlim([-0.5 0.5]);
 
 subplot(3, 2, 3);
-plot(t, p_t_natural);
+plot(t, p_t_natural, 'LineWidth', 2);
 title('Trem de pulsos no tempo p(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -205,7 +209,7 @@ grid on;
 xlim([-0.5 0.5]);
 
 subplot(3, 2, 5);
-plot(t, xs_t_natural);
+plot(t, xs_t_natural, 'LineWidth', 2);
 title('Amostragem natural xs(t) = xf(t) * p(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -221,7 +225,7 @@ grid on;
 xlim([-20 20]);
 
 subplot(3, 2, 4);
-plot(t, espectro_para_tempo(f, xs_f_natural, t));
+plot(t, espectro_para_tempo(f, xs_f_natural, t), 'LineWidth', 2);
 title('Xs(f) transformada em xs(t). Aproximação da integral.');
 ylabel('Amplitude');
 xlabel('t');
@@ -248,7 +252,7 @@ xs_f_flattop = amostragem_flattop(tau, Ts, fs, f, xf_f, H0_f);
 figure('Name', 'Amostragem flat-top', 'Position', [100 100 1000 700]);
 
 subplot(3, 2, 1);
-plot(t, xf_t);
+plot(t, xf_t, 'LineWidth', 2);
 title('xf(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -256,7 +260,7 @@ grid on;
 xlim([-0.5 0.5]);
 
 subplot(3, 2, 3);
-plot(t, h0_t);
+plot(t, h0_t, 'LineWidth', 2);
 title('Pulso retangular no tempo h0(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -264,7 +268,7 @@ grid on;
 xlim([-0.5 0.5]);
 
 subplot(3, 2, 5);
-plot(t, xs_t_flattop);
+plot(t, xs_t_flattop, 'LineWidth', 2);
 title('Amostragem flat-top xs(t) = xf(t) convoluido com h0(t)');
 ylabel('Amplitude');
 xlabel('t');
@@ -288,7 +292,7 @@ grid on;
 xlim([-20 20]);
 
 subplot(3, 2, 6);
-plot(t, espectro_para_tempo(f, xs_f_flattop, t));
+plot(t, espectro_para_tempo(f, xs_f_flattop, t), 'LineWidth', 2);
 title('Xs(f) transformada em xs(t). Aproximação da integral.');
 ylabel('Amplitude');
 xlabel('t');
@@ -309,7 +313,7 @@ figure('Name', 'Reconstrução ideal', 'Position', [100 100 1000 600]);
 
 subplot(2, 2, 1);
 stem(f, abs(xs_f_ideal), 'filled');
-title('Xs_ideal(f)');
+title('Xs_{ideal}(f)');
 ylabel('Amplitude');
 xlabel('f');
 grid on;
@@ -317,7 +321,7 @@ xlim([-20 20]);
 
 subplot(2, 2, 3);
 stem(f, abs(hr_f_ideal), 'filled');
-title('Hr_ideal(f)');
+title('Hr_{ideal}(f)');
 ylabel('Amplitude');
 xlabel('f');
 grid on;
@@ -325,14 +329,14 @@ xlim([-20 20]);
 
 subplot(2, 2, 2);
 stem(f, abs(xr_f_ideal), 'filled');
-title('Xr_ideal(f) = Xs_ideal(f) * Hr_ideal(f)');
+title('Xr_{ideal}(f) = Xs_{ideal}(f) * Hr_{ideal}(f)');
 ylabel('Amplitude');
 xlabel('f');
 grid on;
 xlim([-20 20]);
 
 subplot(2, 2, 4);
-plot(t, espectro_para_tempo(f, xr_f_ideal, t));
+plot(t, espectro_para_tempo(f, xr_f_ideal, t), 'LineWidth', 2);
 title('Xr(f) transformada em xr(t). Aproximação da integral.');
 ylabel('Amplitude');
 xlabel('t');
@@ -353,7 +357,7 @@ figure('Name', 'Reconstrução natural', 'Position', [100 100 1000 600]);
 
 subplot(2, 2, 1);
 stem(f, abs(xs_f_natural), 'filled');
-title('Xs_natural(f)');
+title('Xs_{natural}(f)');
 ylabel('Amplitude');
 xlabel('f');
 grid on;
@@ -361,7 +365,7 @@ xlim([-20 20]);
 
 subplot(2, 2, 3);
 stem(f, abs(hr_f_natural), 'filled');
-title('Hr_natural(f)');
+title('Hr_{natural}(f)');
 ylabel('Amplitude');
 xlabel('f');
 grid on;
@@ -369,14 +373,14 @@ xlim([-20 20]);
 
 subplot(2, 2, 2);
 stem(f, abs(xr_f_natural), 'filled');
-title('Xr_natural(f) = Xs_natural(f) * Hr_natural(f)');
+title('Xr_{natural}(f) = Xs_{natural}(f) * Hr_{natural}(f)');
 ylabel('Amplitude');
 xlabel('f');
 grid on;
 xlim([-20 20]);
 
 subplot(2, 2, 4);
-plot(t, espectro_para_tempo(f, xr_f_natural, t));
+plot(t, espectro_para_tempo(f, xr_f_natural, t), 'LineWidth', 2);
 title('Xr(f) transformada em xr(t). Aproximação da integral.');
 ylabel('Amplitude');
 xlabel('t');
@@ -406,12 +410,12 @@ figure('Name', 'Reconstrução Flat-Top: Sem Equalizador vs Com Equalizador', 'P
 % Espectro Amostrado Xs(f)
 subplot(4, 2, 1);
 stem(f, abs(xs_f_flattop), 'filled');
-title('Xs_flattop(f)'); ylabel('Amplitude'); xlabel('f'); grid on; xlim([-20 20]);
+title('Xs_{flattop}(f)'); ylabel('Amplitude'); xlabel('f'); grid on; xlim([-20 20]);
 
 % Filtro Passa-Baixas Hr(f)
 subplot(4, 2, 3);
 stem(f, abs(hr_f_flattop), 'filled');
-title('Hr_flattop(f) (Filtro Pb)'); ylabel('Amplitude'); xlabel('f'); grid on; xlim([-20 20]);
+title('Hr_{flattop}(f) (Filtro Pb)'); ylabel('Amplitude'); xlabel('f'); grid on; xlim([-20 20]);
 
 % Espectro Filtrado Xr(f) = Xs(f) * Hr(f)
 subplot(4, 2, 5);
@@ -420,18 +424,18 @@ title('Xr(f) = Xs(f) * Hr(f)'); ylabel('Amplitude'); xlabel('f'); grid on; xlim(
 
 % Sinal no Tempo xr(t) SEM EQUALIZAÇÃO (Atenuado)
 subplot(4, 2, 7);
-plot(t, espectro_para_tempo(f, xr_f_flattop, t));
-title('xr(t) SEM Equalizador (Atenuado: Amp ≈ 0.1)'); ylabel('Amplitude'); xlabel('t'); grid on; xlim([-0.5 0.5]);
+plot(t, espectro_para_tempo(f, xr_f_flattop, t), 'LineWidth', 2);
+title('xr(t) SEM Equalizador'); ylabel('Amplitude'); xlabel('t'); grid on; xlim([-0.5 0.5]);
 
 % Magnitude do Equalizador |Heq(f)| na Banda Passante
 subplot(4, 2, 2);
 stem(f, abs(heq_f_flattop), 'filled');
-title('|Heq(f)| (Ganho na Banda ≈ 10.6)'); ylabel('Magnitude'); xlabel('f'); grid on; xlim([-20 20]);
+title('|Heq(f)|'); ylabel('Magnitude'); xlabel('f'); grid on; xlim([-20 20]);
 
 % Fase do Equalizador /_Heq(f)
 subplot(4, 2, 4);
 stem(f, angle(heq_f_flattop) * (180/pi), 'filled');
-title('Fase /_Heq(f) (Compensação)'); ylabel('Graus (°)'); xlabel('f'); grid on; xlim([-20 20]);
+title('Fase /_ Heq(f) (Compensação)'); ylabel('Graus (°)'); xlabel('f'); grid on; xlim([-20 20]);
 
 % Espectro Equalizado Xeq(f) = Xr(f) * Heq(f)
 subplot(4, 2, 6);
@@ -440,5 +444,50 @@ title('Xeq(f) = Xr(f) * Heq(f)'); ylabel('Amplitude'); xlabel('f'); grid on; xli
 
 % Sinal no Tempo xeq(t) COM EQUALIZAÇÃO (Totalmente Recuperado)
 subplot(4, 2, 8);
-plot(t, espectro_para_tempo(f, xeq_f_flattop, t));
-title('xeq(t) COM Equalizador (Recuperado: Amp = 1.0)'); ylabel('Amplitude'); xlabel('t'); grid on; xlim([-0.5 0.5]);
+plot(t, espectro_para_tempo(f, xeq_f_flattop, t), 'LineWidth', 2);
+title('xeq(t) COM Equalizador'); ylabel('Amplitude'); xlabel('t'); grid on; xlim([-0.5 0.5]);
+
+
+% =========================================================================
+% EXPORTAÇÃO DE TODAS AS FIGURAS PARA UM ÚNICO PDF
+% =========================================================================
+
+% 1. Encontra os "handles" de todas as figuras abertas no sistema
+fig_handles = findobj('Type', 'figure');
+
+% 2. O Octave lista da última para a primeira. Vamos inverter para
+% salvar no PDF na ordem cronológica de criação (Figura 1, 2, 3...)
+fig_handles = flipud(fig_handles);
+
+nome_arquivo = 'simulacao_caso_5.pdf';
+
+disp('Gerando PDF com todos os gráficos...');
+
+for i = 1:length(fig_handles)
+    % Traz a figura atual para o foco
+    figure(fig_handles(i));
+
+    % Força a interface a atualizar e dá um respiro de 1 segundo
+    drawnow;
+
+    % Configura a orientação para paisagem
+    set(fig_handles(i), 'PaperType', 'a4');
+    set(fig_handles(i), 'PaperOrientation', 'landscape');
+
+    if i == 1
+        % Na primeira figura, cria (ou sobrescreve) o arquivo PDF
+        print(fig_handles(i), nome_arquivo, '-dpdf', '-bestfit');
+    else
+        % Nas demais figuras, anexa a página ao arquivo existente
+        print(fig_handles(i), nome_arquivo, '-dpdf', '-append', '-bestfit');
+    end
+end
+
+disp(['Sucesso! Todas as figuras foram salvas em: ', nome_arquivo]);
+
+
+
+
+
+
+

@@ -8,10 +8,10 @@ Caso 1: O Cenário Ideal (Funcionamento Perfeito)
 ================================================
 
 Variáveis:
-fc_aa = 10
-fs = 5
-tau = 0.05
-fc_rec = 2.5
+fc_aa = 4
+fs = 6
+tau = 0.1
+fc_rec = 3
 
 Comportamento Esperado:
 Filtro AA: Elimina perfeitamente a componente de 18 Hz, sobrando apenas a senoide pura de 2 Hz.
